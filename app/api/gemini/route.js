@@ -1,5 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 import { generateCustomContents } from "../utils";
+import { chatModel } from "@/models/chat-model";
 
 export async function GET() {
   return Response.json({ message: "Hello World" });
@@ -7,6 +8,12 @@ export async function GET() {
 
 export async function POST(request) {
   const data = await request.json();
+  const getChats = await chatModel.find({}).sort({ id: -1 });
+  const chats = {
+    previousMessage: getChats,
+    currentMessage: data.currentMessage,
+  };
+
   console.log(data);
   const ai = new GoogleGenAI({
     apiKey: process.env.GOOGLE_API_KEY,

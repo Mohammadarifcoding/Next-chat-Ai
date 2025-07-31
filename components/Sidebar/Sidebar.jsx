@@ -1,7 +1,11 @@
+
+import { getConversation } from '@/server/actions/conversation';
 import Image from 'next/image';
 import React from 'react';
 
-const Sidebar = () => {
+const Sidebar = async() => {
+  const data = await getConversation()
+  console.log(data)
     return (
    <div className="w-64  bg-gray-900 text-white flex flex-col h-full">
   {/* Header */}
@@ -25,18 +29,13 @@ const Sidebar = () => {
     <div className="pt-4 ">
       <span className="text-gray-500 text-xs uppercase font-semibold">Conversations</span>
       <div className="space-y-1  mt-3">
-        <a href="#" className="flex items-center space-x-3 px-2 py-2 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer ">
-          <span className="text-sm text-zinc-300">Learning NLP vs LLM</span>
+        {
+          data.map((conversation) => (
+        <a href={`/chat/${conversation._id}`} key={conversation._id} className="flex items-center space-x-3 px-2 py-2 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer ">
+          <span className="text-sm text-zinc-300">{conversation.title}</span>
         </a>
-        <a href="#" className="flex items-center space-x-3 px-2 py-2 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer ">
-          <span className="text-sm text-zinc-300">Microservice Data Orchestration</span>
-        </a>
-        <a href="#" className="flex items-center space-x-3 px-2 py-2 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer ">
-          <span className="text-sm text-zinc-300">Deep Cloning Alternatives</span>
-        </a>
-        <a href="#" className="flex items-center space-x-3 px-2 py-2 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer ">
-          <span className="text-sm text-zinc-300">AI Database Diagram Generation</span>
-        </a>
+          ))
+        }
       </div>
     </div>
   </nav>

@@ -7,6 +7,14 @@ export const generateCustomContents = (data) => {
   });
 
   const finalData = [
+    {
+      role: "system",
+      parts: [
+        {
+          text: "You are an AI chatbot. your name is Chat Ai. Your task is to answer users question in a concise way and easy to understand. So understand the context and answer users message",
+        },
+      ],
+    },
     ...newData,
     {
       role: data.currentMessage.role,
@@ -14,4 +22,13 @@ export const generateCustomContents = (data) => {
     },
   ];
   return finalData;
+};
+
+export const asyncOperation = async (callback) => {
+  try {
+    const result = await callback();
+    return Response.json(result);
+  } catch (er) {
+    return Response.json({ error: er.message });
+  }
 };

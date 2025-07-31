@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Sidebar from "./components/Sidebar/Sidebar";
-
+import Sidebar from "@/components/Sidebar/Sidebar";
+import { dbConnect } from "@/server/services/mongo";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -23,6 +23,7 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
+  await dbConnect();
   return (
     <html lang="en">
       <body className={inter.className}>

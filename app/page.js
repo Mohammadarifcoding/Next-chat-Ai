@@ -1,6 +1,6 @@
-import Chat from "./components/chat/Chat";
-import Chatintro from "./components/chat/Chatintro";
-import Prompt from "./components/chat/Prompt";
+import Chat from "@/components/chat/Chat";
+import Chatintro from "@/components/chat/Chatintro";
+import Prompt from "@/components/chat/Prompt";
 
 export default function Home() {
   return (
