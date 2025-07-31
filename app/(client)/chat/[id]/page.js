@@ -7,7 +7,6 @@ import React from "react";
 
 const Chat = async ({ params }) => {
   const data = await getChats(params.id);
-  console.log(data);
   return (
     <div className="flex-1 flex flex-col bg-white">
       <ConversationHeader id={params.id} />

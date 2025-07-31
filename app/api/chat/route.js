@@ -1,9 +1,8 @@
 import r from "rype";
-import { asyncOperation } from "../utils";
+import { asyncOperation, getGeminiResultFromChat } from "../utils";
 import { conversationModel } from "@/server/models/conversation-model";
 import { chatModel } from "@/server/models/chat-model";
 import mongoose from "mongoose";
-import { revalidatePath } from "next/cache";
 const schema = r.object({
   conversationId: r.string().optional(),
   role: r.string().required(),
@@ -26,12 +25,20 @@ export async function POST(request) {
       role: parsed.role,
       content: parsed.content,
     });
-    console.log("data", {
-      conversationId: new mongoose.Types.ObjectId(conversationId),
+    const previousessage = await chatModel
+      .find({ conversationId: new mongoose.Types.ObjectId(conversationId) })
+      .sort({ createdAt: 1 });
+
+    const resultGemini = await getGeminiResultFromChat(previousessage, {
       role: parsed.role,
       content: parsed.content,
     });
-    revalidatePath(`/chat/${conversationId}`);
-    return { success: true, data: chat, status: 201 };
+    const response = resultGemini.candidates[0].content.parts[0].text;
+    await chatModel.create({
+      conversationId: new mongoose.Types.ObjectId(conversationId),
+      role: "model",
+      content: response,
+    });
+    return { success: true, data: response, status: 201 };
   });
 }

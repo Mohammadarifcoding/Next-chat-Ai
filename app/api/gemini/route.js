@@ -19,7 +19,7 @@ export async function POST(request) {
   });
   const response = await ai.models.generateContent({
     model: "gemini-2.5-flash",
-    contents: generateCustomContents(data),
+    contents: generateCustomContents(chats),
     config: {
       responseMimeType: "text/x.enum",
       responseJsonSchema: {

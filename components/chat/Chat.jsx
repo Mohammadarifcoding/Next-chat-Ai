@@ -18,7 +18,7 @@ const Chat = ({ chat, setChat }) => {
     if(!message) return
     setLoading(true)
     const data = {
-      role: "model",
+      role: "user",
       content: message
     }
     if(pathName.includes("/chat/")){
