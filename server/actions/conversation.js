@@ -20,4 +20,11 @@ const createNewConversation = async () => {
   });
 };
 
-export { getConversation, createNewConversation };
+const getSingleConversation = async (id) => {
+  return asyncFetch(async () => {
+    const res = await axios.get(`http://localhost:3000/api/conversation/${id}`);
+    return res.data?.data;
+  });
+};
+
+export { getConversation, createNewConversation, getSingleConversation };

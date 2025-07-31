@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Spark from './../icon/Spark';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAxios } from '@/hooks/axios';
+import { revalidatePath } from 'next/cache';
 
 const Chat = ({ chat, setChat }) => {
   const axios = useAxios()
@@ -10,23 +11,26 @@ const Chat = ({ chat, setChat }) => {
   const navigate = useRouter()
   const [loading, setLoading] = useState(false)
   const handleSend = async(e)=> {
+   
     e.preventDefault()
+     console.log("I am here")
     const message = chat.trim()
     if(!message) return
     setLoading(true)
     const data = {
-      role: "user",
+      role: "model",
       content: message
     }
     if(pathName.includes("/chat/")){
       data.conversationId = pathName.split("/")[2]
     }
     const send = await axios.post(`/chat`, data)
-    console.log(send.data.data.data)
+    console.log(send)
      if(!pathName.includes("/chat/")){
        navigate.push(`/chat/${send.data.data.data?.conversationId}`)
      }
      setLoading(false)
+     setChat("")
   }
   return (
     <form onSubmit={handleSend} className="p-6 border-t border-gray-200 flex w-full gap-2">

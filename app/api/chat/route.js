@@ -26,6 +26,11 @@ export async function POST(request) {
       role: parsed.role,
       content: parsed.content,
     });
+    console.log("data", {
+      conversationId: new mongoose.Types.ObjectId(conversationId),
+      role: parsed.role,
+      content: parsed.content,
+    });
     revalidatePath(`/chat/${conversationId}`);
     return { success: true, data: chat, status: 201 };
   });

@@ -6,7 +6,6 @@ import React from 'react';
 
 const Sidebar = async() => {
   const data = await getConversation()
-  console.log(data)
     return (
    <div className="w-64  bg-gray-900 text-white flex flex-col h-full">
   {/* Header */}

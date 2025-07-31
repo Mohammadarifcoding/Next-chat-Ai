@@ -8,7 +8,6 @@ const schema = r.object({
 export async function POST(request) {
   return await asyncOperation(async () => {
     const data = await request.json();
-    console.log(data);
     const check = schema.parse(data);
     const conversation = await conversationModel.create(check);
     return conversation;

@@ -14,7 +14,6 @@ export async function POST(request) {
     currentMessage: data.currentMessage,
   };
 
-  console.log(data);
   const ai = new GoogleGenAI({
     apiKey: process.env.GOOGLE_API_KEY,
   });

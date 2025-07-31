@@ -6,7 +6,7 @@ const chatSchema = new Schema({
     ref: "Conversation",
     required: true,
   },
-  role: { type: String, enum: ["user", "assistant", "system"], required: true },
+  role: { type: String, enum: ["user", "model"], required: true },
   content: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
 });
