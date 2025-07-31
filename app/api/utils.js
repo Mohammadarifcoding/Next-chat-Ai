@@ -27,7 +27,10 @@ export const generateCustomContents = (data) => {
 export const asyncOperation = async (callback) => {
   try {
     const result = await callback();
-    return Response.json(result);
+    return Response.json({
+      status: "success",
+      data: result,
+    });
   } catch (er) {
     return Response.json({ error: er.message });
   }

@@ -1,6 +1,6 @@
-import { conversationModel } from "@/models/conversation-model";
 import r from "rype";
 import { asyncOperation } from "../utils";
+import { conversationModel } from "@/server/models/conversation-model";
 const schema = r.object({
   title: r.string(),
   createdAt: r.string().optional(),
@@ -17,7 +17,7 @@ export async function POST(request) {
 
 export async function GET() {
   return await asyncOperation(async () => {
-    const conversation = await conversationModel.find({}).sort({ id: -1 });
+    const conversation = await conversationModel.find({});
     return conversation;
   });
 }

@@ -1,13 +1,23 @@
 "use server";
 
+import axios from "axios";
+
 const { asyncFetch } = require("./utils");
 
 const getConversation = async () => {
   return asyncFetch(async () => {
-    const res = await fetch("http://localhost:3000/api/conversation");
-    const json = await res.json();
-    return json;
+    const res = await axios.get("http://localhost:3000/api/conversation");
+    return res.data;
   });
 };
 
-export { getConversation };
+const createNewConversation = async () => {
+  return asyncFetch(async () => {
+    const res = await axios.post("http://localhost:3000/api/conversation", {
+      title: "New conversation",
+    });
+    return res.data;
+  });
+};
+
+export { getConversation, createNewConversation };
