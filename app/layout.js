@@ -3,6 +3,7 @@ import "./globals.css";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import { dbConnect } from "@/server/services/mongo";
 import ChatProvider from "@/provider/Chat";
+import TanstackProvider from "@/provider/TanstackProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -22,18 +23,20 @@ export const metadata = {
     ],
   },
 };
-
 export default async function RootLayout({ children }) {
   await dbConnect();
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ChatProvider>
-          <main className="flex flex-row h-screen">
-            <Sidebar />
-            {children}
-          </main>
-        </ChatProvider>
+        <TanstackProvider>
+          {" "}
+          <ChatProvider>
+            <main className="flex flex-row h-screen">
+              <Sidebar />
+              {children}
+            </main>
+          </ChatProvider>
+        </TanstackProvider>
       </body>
     </html>
   );

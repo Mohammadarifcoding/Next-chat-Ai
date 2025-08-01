@@ -35,12 +35,12 @@ export async function POST(request) {
       content: parsed.content,
     });
     const response = resultGemini.candidates[0].content.parts[0].text;
-    await chatModel.create({
+    const result = await chatModel.create({
       conversationId: new mongoose.Types.ObjectId(conversationId),
       role: "model",
       content: response,
     });
     revalidatePath(`/chat/${conversationId}`);
-    return { success: true, data: response, status: 201 };
+    return { success: true, data: result, status: 201 };
   });
 }

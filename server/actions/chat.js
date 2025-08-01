@@ -7,5 +7,8 @@ const getChats = async (id) => {
     return data.data.data;
   });
 };
-
-export { getChats };
+const refetchChats = async (conversationId, dispatch) => {
+  const chatData = await getChats(conversationId);
+  dispatch({ type: "FETCH_SUCCESS", payload: chatData });
+};
+export { getChats, refetchChats };

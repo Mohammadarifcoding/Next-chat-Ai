@@ -4,6 +4,7 @@ import Spark from './../icon/Spark';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAxios } from '@/hooks/axios';
 import { ChatContext } from '@/context';
+import { refetchChats } from '@/server/actions/chat';
 
 const Chat = ({ }) => {
   const axios = useAxios()
@@ -11,6 +12,7 @@ const Chat = ({ }) => {
   const navigate = useRouter()
   const [loading, setLoading] = useState(false)
   const { chat, setChat, state, dispatch } = useContext(ChatContext)
+  
   console.log(state)
   const handleSend = async(e)=> {
     e.preventDefault()
@@ -26,13 +28,31 @@ const Chat = ({ }) => {
     if(pathName.includes("/chat/")){
       data.conversationId = pathName.split("/")[2]
     }
-    const send = await axios.post(`/chat`, data)
+
+    try{
+const send = await axios.post(`/chat`, data)
     console.log(send)
      if(!pathName.includes("/chat/")){
        navigate.push(`/chat/${send.data.data.data?.conversationId}`)
      }
-dispatch({type: "SEND_MESSAGE", payload: false})
+     else{
+       navigate.refresh();
+     }
+
+//  await refetchChats(send.data.data.data?.conversationId, dispatch)
+
+  dispatch({type: "SEND_MESSAGE", payload: false})
 setChat("")
+window.scrollTo({
+  top: document.body.scrollHeight,
+  behavior: 'smooth',
+})
+    }catch (err) {
+    console.error(err);
+  } finally {
+    dispatch({ type: "SEND_MESSAGE", payload: false });
+  }
+    
 
   }
   return (
