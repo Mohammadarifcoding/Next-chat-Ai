@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import { dbConnect } from "@/server/services/mongo";
+import ChatProvider from "@/provider/Chat";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -27,10 +28,12 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main className="flex flex-row h-screen">
-          <Sidebar />
-          {children}
-        </main>
+        <ChatProvider>
+          <main className="flex flex-row h-screen">
+            <Sidebar />
+            {children}
+          </main>
+        </ChatProvider>
       </body>
     </html>
   );

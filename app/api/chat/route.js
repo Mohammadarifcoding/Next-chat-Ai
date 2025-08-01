@@ -3,6 +3,7 @@ import { asyncOperation, getGeminiResultFromChat } from "../utils";
 import { conversationModel } from "@/server/models/conversation-model";
 import { chatModel } from "@/server/models/chat-model";
 import mongoose from "mongoose";
+import { revalidatePath } from "next/cache";
 const schema = r.object({
   conversationId: r.string().optional(),
   role: r.string().required(),
@@ -39,6 +40,7 @@ export async function POST(request) {
       role: "model",
       content: response,
     });
+    revalidatePath(`/chat/${conversationId}`);
     return { success: true, data: response, status: 201 };
   });
 }

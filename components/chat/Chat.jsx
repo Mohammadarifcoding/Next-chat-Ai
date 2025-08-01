@@ -1,22 +1,24 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Spark from './../icon/Spark';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAxios } from '@/hooks/axios';
-import { revalidatePath } from 'next/cache';
+import { ChatContext } from '@/context';
 
-const Chat = ({ chat, setChat }) => {
+const Chat = ({ }) => {
   const axios = useAxios()
   const pathName = usePathname()
   const navigate = useRouter()
   const [loading, setLoading] = useState(false)
+  const { chat, setChat, state, dispatch } = useContext(ChatContext)
+  console.log(state)
   const handleSend = async(e)=> {
-   
     e.preventDefault()
-     console.log("I am here")
     const message = chat.trim()
+    dispatch({type: "SEND_MESSAGE", payload: true})
+   
     if(!message) return
-    setLoading(true)
+
     const data = {
       role: "user",
       content: message
@@ -29,15 +31,16 @@ const Chat = ({ chat, setChat }) => {
      if(!pathName.includes("/chat/")){
        navigate.push(`/chat/${send.data.data.data?.conversationId}`)
      }
-     setLoading(false)
-     setChat("")
+dispatch({type: "SEND_MESSAGE", payload: false})
+setChat("")
+
   }
   return (
     <form onSubmit={handleSend} className="p-6 border-t border-gray-200 flex w-full gap-2">
       <div className="relative w-[calc(100%-100px)]">
         <input
           type="text"
-          value={chat}
+          value={!state.messageSending ? chat : ""}
           onChange={(e) => setChat(e.target.value)}
           placeholder="Ask me Anything"
           className="w-full p-4 pr-20 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
