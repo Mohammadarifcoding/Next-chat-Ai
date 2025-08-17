@@ -1,5 +1,6 @@
 import { getTimeJs } from '@/utils/getTime';
 import React from 'react';
+import Markdown from 'react-markdown';
 
 const HChatBox = ({chat}) => {
   const date = new Date(chat.createdAt)
@@ -10,7 +11,7 @@ const HChatBox = ({chat}) => {
     </div>
     <div className="flex-1">
       <div className="bg-gray-100 rounded-2xl px-4 py-3 max-w-3xl">
-        <p className="text-gray-800">{chat?.content}</p>
+        <p className="text-gray-800"><Markdown>{chat.content}</Markdown></p>
       </div>
       <span className="text-xs text-gray-500 mt-1 block">{chat?.sending ? "Sending..." : getTimeJs(chat.createdAt)}</span>
     </div>

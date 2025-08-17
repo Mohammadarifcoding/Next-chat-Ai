@@ -1,5 +1,6 @@
 import { getTimeJs } from '@/utils/getTime';
 import React from 'react';
+import Markdown from 'react-markdown';
 
 const AiChatbox = ({chat}) => {
     return (
@@ -9,7 +10,7 @@ const AiChatbox = ({chat}) => {
     </div>
     <div className="flex-1">
       <div className="bg-white border border-gray-200 rounded-2xl px-4 py-3 max-w-3xl">
-        <p className="text-gray-800">{chat.content}</p>
+        <p className="text-gray-800"><Markdown>{chat.content}</Markdown></p>
       </div>
       <span className="text-xs text-gray-500 mt-1 block">{getTimeJs(chat.createdAt)}</span>
     </div>
